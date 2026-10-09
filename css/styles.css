@@ -343,7 +343,15 @@ ul { margin: 0; padding: 0; list-style: none; }
   transition: transform .32s cubic-bezier(.22, .9, .3, 1), opacity .22s ease;
 }
 .stage.on { pointer-events: auto; }
-.stage.parked { transform: translate3d(0, -300vh, 0); opacity: 0; }
+/* Al navegar a otra vista el reproductor NO se mueve de sitio ni se oculta
+   con display:none: si el iframe queda fuera del área visible, WebKit
+   suspende su audio y la música se corta. Se queda donde está,
+   invisible y por detrás de la interfaz. */
+.stage.parked {
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+}
 .stage-inner {
   position: relative; width: 100%; margin: 0 auto;
   max-width: 1360px; aspect-ratio: 16 / 9;
