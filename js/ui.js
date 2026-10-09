@@ -478,8 +478,10 @@ window.UI = (function () {
       '</div>';
 
     html += '<div class="row-card"><h3>Ayuda</h3>' +
-      '<div class="r"><span class="txt"><b>Escuchar con el móvil bloqueado</b><span>Guía rápida en 4 pasos</span></span>' +
+      '<div class="r"><span class="txt"><b>Escuchar con el móvil bloqueado</b><span>Guía paso a paso</span></span>' +
       '<button class="btn" data-act="help">' + icon('info', 15) + ' Ver guía</button></div>' +
+      '<div class="r"><span class="txt"><b>Anuncios en los vídeos</b><span>Qué se puede y qué no</span></span>' +
+      '<button class="btn" data-act="ads">' + icon('info', 15) + ' Consultar</button></div>' +
       '<div class="r"><span class="txt"><b>Atajos de teclado</b><span>En Mac o con teclado externo</span></span>' +
       '<button class="btn" data-act="shortcuts">Ver</button></div>' +
       '<div class="r"><span class="txt"><b>Acerca de</b><span>Mis Videos · biblioteca personal</span></span></div>' +
@@ -836,16 +838,59 @@ window.UI = (function () {
     modal({
       title: 'Escuchar con el móvil bloqueado',
       body:
-        '<div class="steps">' +
-          '<div class="step"><div><b>Instálalo como app.</b> Abre esta web en Safari, pulsa <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>. Se abrirá sin barra de Safari (pantalla completa).</div></div>' +
-          '<div class="step"><div><b>Añade un vídeo</b> o elige uno de tus favoritos y dale a reproducir.</div></div>' +
-          '<div class="step"><div><b>Bloquea el móvil</b> con el botón lateral o el Face ID. La música sigue sonando.</div></div>' +
-          '<div class="step"><div><b>Controles en el candado:</b> con la pantalla bloqueada verás pausa, saltar y el título del vídeo en la pantalla de bloqueo.</div></div>' +
-        '</div>' +
         '<div class="callout warn">' + icon('info', 16) +
-          '<div><b>Importante:</b> la reproducción con la pantalla bloqueada la gestiona YouTube. Si algún canal tiene bloqueado el modo embebido, ese vídeo no se podrá reproducir aquí (YouTube devuelve el error «prohibido en reproductores incrustados»). Para esos casos, pulsa <b>YouTube</b> y se abrirá en la app oficial.</div></div>' +
+          '<div><b>Lo primero que hay que mirar:</b> si el vídeo se para al bloquear, casi siempre es el ' +
+          '<b>Modo Ahorro de Energía</b>. iOS corta el audio en segundo plano cuando está activo.</div></div>' +
+        '<div class="steps">' +
+          '<div class="step"><div><b>Instálalo como app.</b> Abre la web en Safari → <b>Compartir</b> → ' +
+            '<b>Añadir a pantalla de inicio</b>. Sin la barra de Safari funciona mucho mejor.</div></div>' +
+          '<div class="step"><div><b>Desactiva el Modo Ahorro de Energía.</b> En ' +
+            '<b>Ajustes → Batería</b>, desactiva el interruptor. Con él activado, iOS detiene el audio ' +
+            'en cuanto bloqueas la pantalla.</div></div>' +
+          '<div class="step"><div><b>Reproduce y bloquea.</b> Dale al play y bloquea con el botón lateral o ' +
+            'el Face ID. La música sigue sonando.</div></div>' +
+          '<div class="step"><div><b>Controles en el candado:</b> verás pausa, saltar y el título del vídeo.</div></div>' +
+        '</div>' +
+        '<div class="panel"><h3>Si sigue sin sonar</h3><div class="stack">' +
+          '<div class="step"><div><b>¿La estás usando como app instalada?</b> Abrirla en una pestaña normal ' +
+            'de Safari suele cortar el audio al bloquear.</div></div>' +
+          '<div class="step"><div><b>¿El canal permite reproductores incrustados?</b> Algunas señales de TV ' +
+            'y ciertos canales los bloquean, y esos vídeos no se pueden oír aquí: pulsa <b>YouTube</b> para ' +
+            'abrirlo en la app oficial, donde sí suena en segundo plano.</div></div>' +
+        '</div></div>' +
         '<div class="callout">' + icon('timer', 16) +
           '<div>¿Te duermes? Usa el botón <b>Temporizador</b> en la ficha del vídeo: pausa automáticamente a los 15, 30, 45 o 60 minutos, o al terminar el vídeo.</div></div>',
+      buttons: [{ label: 'Entendido', cls: 'btn-primary' }]
+    });
+  }
+
+  /* ---------------- anuncios ---------------- */
+  function adsModal() {
+    modal({
+      title: 'Anuncios en los vídeos',
+      body:
+        '<div class="callout warn">' + icon('info', 16) +
+          '<div><b>Los anuncios los pone YouTube, no esta app.</b> Van dentro del vídeo que tú has ' +
+          'añadido, así que esta página no puede quitarlos.</div></div>' +
+        '<div class="callout">' + icon('checkCircle', 16) +
+          '<div><b>Lo que sí se puede controlar</b> (ya aplicado, no hay más que se pueda hacer):</div></div>' +
+        '<div class="steps">' +
+          '<div class="step"><div><b>Sin el botón de YouTube</b> ni el logo flotando sobre el vídeo ' +
+            '(parámetro <code>modestbranding</code>).</div></div>' +
+          '<div class="step"><div><b>Sin vídeos relacionados</b> al terminar, que es donde más estorban ' +
+            '(parámetro <code>rel=0</code>).</div></div>' +
+          '<div class="step"><div><b>Sin anotaciones</b> ni flechas del creador encima del vídeo ' +
+            '(parámetro <code>iv_load_policy=3</code>).</div></div>' +
+        '</div>' +
+        '<div class="callout">' + icon('info', 16) +
+          '<div><b>Sobre los anuncios que salen antes o durante el vídeo:</b> los decide el servidor de ' +
+          'YouTube según tu cuenta y el canal. No existe ningún ajuste ni parámetro que los quite desde ' +
+          'una web. La única vía que funciona es un bloqueador de anuncios instalado en el dispositivo, ' +
+          'pero en iOS suele dejar de actuar en las apps instaladas.</div></div>' +
+        '<div class="callout">' + icon('info', 16) +
+          '<div><b>Alternativa:</b> si guardas sobre todo <b>música y podcasts</b>, los anuncios son ' +
+          'mucho menos frecuentes. El temporizador y los controles de la pantalla de bloqueo funcionan ' +
+          'igual de bien.</div></div>',
       buttons: [{ label: 'Entendido', cls: 'btn-primary' }]
     });
   }
@@ -1067,6 +1112,7 @@ window.UI = (function () {
         else if (a2 === 'restore') restoreModal();
         else if (a2 === 'apikey') apiKeyModal();
         else if (a2 === 'help') helpModal();
+        else if (a2 === 'ads') adsModal();
         else if (a2 === 'shortcuts') shortcutsModal();
         else if (a2 === 'wipe') {
           confirmBox('Borrar todo', 'Se eliminarán TODOS tus vídeos y listas de este dispositivo. Exporta una copia antes si quieres conservarlos.', 'Borrar todo', true)
@@ -1227,6 +1273,7 @@ window.UI = (function () {
     confirmBox: confirmBox,
     addModal: addModal,
     helpModal: helpModal,
+    adsModal: adsModal,
     listModal: listModal,
     editVideoModal: editVideoModal,
     backupModal: backupModal,
