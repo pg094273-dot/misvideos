@@ -5,7 +5,7 @@
    ============================================================ */
 /* Sube este número (p. ej. v2, v3…) cada vez que publiques cambios:
    obliga al navegador a tirar la caché antigua y usar los ficheros nuevos. */
-var VERSION = 'mis-videos-v2';
+var VERSION = 'mis-videos-v3';
 var SHELL = VERSION + '-shell';
 var RUNTIME = VERSION + '-runtime';
 var KEEP = [SHELL, RUNTIME];
